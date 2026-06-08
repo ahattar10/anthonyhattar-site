@@ -29,4 +29,28 @@
 	window.addEventListener('scroll', function () {
 		btn.classList.toggle('show', window.scrollY > 400);
 	});
+
+	function sendEvent(name, params) {
+		if (typeof gtag === 'function') {
+			gtag('event', name, params || {});
+		}
+	}
+
+	document.querySelectorAll('.resume-btn').forEach(function (link) {
+		link.addEventListener('click', function () {
+			sendEvent('resume_click', {
+				link_text: link.textContent.trim(),
+				link_url: link.href
+			});
+		});
+	});
+
+	var linkedIn = document.querySelector('a[href*="linkedin.com"]');
+	if (linkedIn) {
+		linkedIn.addEventListener('click', function () {
+			sendEvent('linkedin_click', {
+				link_url: linkedIn.href
+			});
+		});
+	}
 })();
