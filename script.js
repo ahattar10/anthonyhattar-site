@@ -1,3 +1,10 @@
+window.dataLayer = window.dataLayer || [];
+function gtag() {
+	dataLayer.push(arguments);
+}
+gtag('js', new Date());
+gtag('config', 'G-CZ9D25LCPT');
+
 (function () {
 	var links = Array.from(document.querySelectorAll('.nav-list a'));
 	var sections = links.map(function (a) {
