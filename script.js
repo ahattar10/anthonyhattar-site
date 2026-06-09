@@ -40,65 +40,9 @@
     }
   }
 
-  function trackLinkClick(event, eventName, params) {
-    var link = event.currentTarget;
-    var href = link && link.href;
-    if (!href) {
-      return;
-    }
-
-    // For mail/phone links, fire event and let browser/app handle immediately.
-    if (/^(mailto:|tel:)/i.test(href)) {
-      sendEvent(eventName, params);
-      return;
-    }
-
-    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) {
-      sendEvent(eventName, params);
-      return;
-    }
-
-    event.preventDefault();
-
-    var target = link.target;
-    var didNavigate = false;
-
-    function navigate() {
-      if (didNavigate) {
-        return;
-      }
-      didNavigate = true;
-
-      if (link.hasAttribute('download')) {
-        window.location.href = href;
-        return;
-      }
-
-      if (target === '_blank') {
-        window.open(href, '_blank', 'noopener,noreferrer');
-        return;
-      }
-
-      window.location.href = href;
-    }
-
-    if (typeof gtag === 'function') {
-      gtag(
-        'event',
-        eventName,
-        Object.assign({}, params, {
-          event_callback: navigate
-        })
-      );
-      setTimeout(navigate, 500);
-    } else {
-      navigate();
-    }
-  }
-
   document.querySelectorAll('.resume-btn').forEach(function (link) {
-    link.addEventListener('click', function (event) {
-      trackLinkClick(event, 'resume_click', {
+    link.addEventListener('click', function () {
+      sendEvent('resume_click', {
         link_text: link.textContent.trim(),
         link_url: link.href
       });
@@ -106,8 +50,8 @@
   });
 
   document.querySelectorAll('a[href*="linkedin.com"]').forEach(function (linkedIn) {
-    linkedIn.addEventListener('click', function (event) {
-      trackLinkClick(event, 'linkedin_click', {
+    linkedIn.addEventListener('click', function () {
+      sendEvent('linkedin_click', {
         link_url: linkedIn.href,
         link_text: linkedIn.textContent.trim()
       });
@@ -115,8 +59,8 @@
   });
 
   document.querySelectorAll('a[href^="mailto:"]').forEach(function (mail) {
-    mail.addEventListener('click', function (event) {
-      trackLinkClick(event, 'email_click', {
+    mail.addEventListener('click', function () {
+      sendEvent('email_click', {
         link_url: mail.href,
         link_text: mail.textContent.trim()
       });
@@ -124,8 +68,8 @@
   });
 
   document.querySelectorAll('a[href^="tel:"]').forEach(function (phone) {
-    phone.addEventListener('click', function (event) {
-      trackLinkClick(event, 'phone_click', {
+    phone.addEventListener('click', function () {
+      sendEvent('phone_click', {
         link_url: phone.href,
         link_text: phone.textContent.trim()
       });
