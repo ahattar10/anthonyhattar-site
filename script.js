@@ -36,7 +36,7 @@
 
   function sendEvent(name, params) {
     if (typeof gtag === 'function') {
-      gtag('event', name, params || {});
+      gtag('event', name, Object.assign({ transport_type: 'beacon' }, params || {}));
     }
   }
 
@@ -44,6 +44,12 @@
     var link = event.currentTarget;
     var href = link && link.href;
     if (!href) {
+      return;
+    }
+
+    // For mail/phone links, fire event and let browser/app handle immediately.
+    if (/^(mailto:|tel:)/i.test(href)) {
+      sendEvent(eventName, params);
       return;
     }
 
