@@ -71,9 +71,24 @@ gap: 0.6rem;
 .banner h1 { margin: 0.2rem 0; }
 
 .banner .tagline {
-white-space: nowrap;
-overflow-x: auto;
+white-space: normal;
+overflow-x: visible;
 max-width: 100%;
+margin: 0;
+}
+
+.open-to-work {
+grid-column: 2;
+background: #fff3de;
+border: 1px solid #e8cfaa;
+border-radius: 8px;
+padding: 0.65rem 1rem;
+text-align: center;
+font-weight: 600;
+color: #523518;
+}
+
+.open-to-work p {
 margin: 0;
 }
 
@@ -379,6 +394,11 @@ margin-bottom: 0.85rem;
 .card h3 {
 margin: 0 0 0.15rem;
 color: var(--accent);
+}
+
+.featured-project {
+border: 2px solid #ddb47d;
+box-shadow: 0 4px 14px rgba(139, 58, 0, 0.08);
 }
 
 /* Flexbox card row required by assignment */
