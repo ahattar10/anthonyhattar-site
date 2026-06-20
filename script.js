@@ -1,6 +1,11 @@
 (function () {
-  var links = Array.from(document.querySelectorAll('.nav-list a'));
-  var sections = links
+  var navLinks = Array.from(document.querySelectorAll('.nav-list a'));
+  var sectionLinks = navLinks.filter(function (a) {
+    var href = a.getAttribute('href') || '';
+    return href.startsWith('#');
+  });
+
+  var sections = sectionLinks
     .map(function (a) {
       return document.querySelector(a.getAttribute('href'));
     })
@@ -18,7 +23,7 @@
       }
     });
 
-    links.forEach(function (a) {
+    sectionLinks.forEach(function (a) {
       a.classList.toggle('active', a.getAttribute('href') === '#' + currentId);
     });
   }
@@ -72,6 +77,16 @@
       sendEvent('phone_click', {
         link_url: phone.href,
         link_text: phone.textContent.trim()
+      });
+    });
+  });
+
+  document.querySelectorAll('.tracked-project-link').forEach(function (projectLink) {
+    projectLink.addEventListener('click', function () {
+      sendEvent('project_link_click', {
+        link_name: projectLink.dataset.linkName || '',
+        link_url: projectLink.href,
+        link_text: projectLink.textContent.trim()
       });
     });
   });
